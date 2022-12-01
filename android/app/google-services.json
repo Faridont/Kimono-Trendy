@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "533854883373",
+    "project_id": "kimono-trendy",
+    "storage_bucket": "kimono-trendy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:533854883373:android:7876fa55565eec364932a4",
+        "android_client_info": {
+          "package_name": "com.example.kiu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "533854883373-n0qem1agma2bi4g8b04rchs5okn5fekf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6gtoBQ3llH0yH0aq58zRKWF0LEurZSIc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "533854883373-n0qem1agma2bi4g8b04rchs5okn5fekf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
