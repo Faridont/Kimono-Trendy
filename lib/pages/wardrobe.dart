@@ -1,13 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:kiu/sources/components/app_bar.dart';
 import 'package:kiu/sources/components/drawer.dart';
 import 'package:kiu/sources/style_constants.dart';
+import 'package:provider/provider.dart';
 
 class Wardrobe extends StatelessWidget {
   const Wardrobe({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final User currentUser = Provider.of<User>(context);
     return Scaffold(
       appBar: AppBarComponent.Get('Мой гардероб'),
       drawer: DrawerComponent.Get(context),

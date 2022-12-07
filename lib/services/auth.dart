@@ -5,18 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kiu/sources/helpers/user_helper.dart';
 
+import '../providers/user_provider.dart';
+
 class AuthServise {
   final FirebaseAuth _fAuth = FirebaseAuth.instance;
-
-  Future<User?> singInWithEmailAndPassword(String email, String password) async {
+  Future<void> singInWithEmailAndPassword(UserProvider userProvider, String email, String password) async {
     try {
       UserCredential result = await _fAuth.signInWithEmailAndPassword(email: email, password: password);
       User? user = result.user;
-      return user;
+      if(user != null) {
+        userProvider.addUserData(currentUser: user);
+        UserHelper.PrintInfoMessage("Вход выполнен успешно");
+      }
     } catch(ex) {
-      print('Auth failed whith exception');
+      UserHelper.PrintInfoMessage("Не удалось авторизоваться неверный Логин/Пароль");
       print(ex);
-      return null;
     }
   }
 

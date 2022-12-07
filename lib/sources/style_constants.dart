@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 
 class StyleConstants {
-  static const PAGE_COLOR = Color(0xffD1A4AC);//0xffD1A4AC //0xff2980b9
-  static const MENU_COLOR = Color(0xffD1A4AC);//0xffD1A4AC //0xcc2980b9
+  static const PAGE_COLOR = Color(0xff2980b9);//0xffD1A4AC //0xff2980b9
+  static const MENU_COLOR = Color(0xff2980b9);
   static const MAIN_TEXT_FONT_SIZE = 50;
   static const CONTAINER_PADDING = EdgeInsets.all(15);
   static const MARGIN_BOTTOM = 15.0;
@@ -40,6 +40,10 @@ class StyleConstants {
 
   static TextStyle GetMainTextSyle() {
     return TextStyle(color: Colors.white, fontSize: 70);
+  }
+
+  static TextStyle GetBoldTextStyle() {
+    return TextStyle(fontWeight: FontWeight.bold);
   }
 
   static InputDecoration GetInputDecoration(String labelText) {

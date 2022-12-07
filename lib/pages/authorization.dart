@@ -11,6 +11,9 @@ import 'package:kiu/sources/helpers/user_helper.dart';
 import 'package:kiu/sources/style_constants.dart';
 import 'package:input_form_field/input_form_field.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/user_provider.dart';
 
 class Authorization extends StatefulWidget {
   const Authorization({Key? key}) : super(key: key);
@@ -20,6 +23,7 @@ class Authorization extends StatefulWidget {
 }
 
 class _AuthorizationState extends State<Authorization> {
+  late UserProvider userProvider;
   AuthServise _authServise = AuthServise();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -45,20 +49,16 @@ class _AuthorizationState extends State<Authorization> {
       return;
     }
 
-    User? user = await _authServise.singInWithEmailAndPassword(email, password);
-
-    if(user == null) {
-      UserHelper.PrintInfoMessage("Не удалось авторизоваться неверный Логин/Пароль");
-    } else {
-      emailController.clear();
-      passwordController.clear();
-      UserHelper.PrintInfoMessage("Вход выполнен успешно");
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => FirstPage()));
-    }
+    await _authServise.singInWithEmailAndPassword(userProvider, email, password);
+    emailController.clear();
+    passwordController.clear();
+    UserHelper.PrintInfoMessage("Вход выполнен успешно");
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => FirstPage()));
   }
 
   @override
   Widget build(BuildContext context) {
+    userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       backgroundColor: StyleConstants.PAGE_COLOR,
       body: Center(
