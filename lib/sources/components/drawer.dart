@@ -42,6 +42,7 @@ class DrawerComponent {
             title: const Text('Мой профиль'),
             trailing: Icon(Icons.account_circle_outlined),
             onTap: () {
+              Navigator.pop(context);
               Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Profile()));
             },
           ),

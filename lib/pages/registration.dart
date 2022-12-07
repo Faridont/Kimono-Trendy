@@ -4,22 +4,22 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:kiu/main.dart';
-import 'package:kiu/pages/registration.dart';
+import 'package:kiu/pages/authorization.dart';
 import 'package:kiu/services/auth.dart';
-import 'package:kiu/sources/helpers/user_helper.dart';
 import 'package:kiu/sources/style_constants.dart';
 import 'package:input_form_field/input_form_field.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class Authorization extends StatefulWidget {
-  const Authorization({Key? key}) : super(key: key);
+import '../sources/helpers/user_helper.dart';
+
+class Registration extends StatefulWidget {
+  const Registration({Key? key}) : super(key: key);
 
   @override
-  State<Authorization> createState() => _AuthorizationState();
+  State<Registration> createState() => _RegistrationState();
 }
 
-class _AuthorizationState extends State<Authorization> {
+class _RegistrationState extends State<Registration> {
   AuthServise _authServise = AuthServise();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -37,23 +37,20 @@ class _AuthorizationState extends State<Authorization> {
     super.dispose();
   }
 
-  void signInButtonClick() async {
+  void registerButtonClick() async {
     var email = emailController.text.trim();
     var password = passwordController.text.trim();
 
-    if(!_authServise.emailIsValid(email) || !_authServise.passwordIsValid(password)) {
-      return;
-    }
-
-    User? user = await _authServise.singInWithEmailAndPassword(email, password);
+    if(!_authServise.emailIsValid(email) || !_authServise.passwordIsValid(password)) return;
+    User? user = await _authServise.registerWithEmailAndPassword(email, password);
 
     if(user == null) {
-      UserHelper.PrintInfoMessage("Не удалось авторизоваться неверный Логин/Пароль");
+      UserHelper.PrintInfoMessage("Не удалось зарегистрироваться");
     } else {
       emailController.clear();
       passwordController.clear();
-      UserHelper.PrintInfoMessage("Вход выполнен успешно");
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => FirstPage()));
+      UserHelper.PrintInfoMessage("Вы успешно зарегистрировались!");
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Authorization()));
     }
   }
 
@@ -68,7 +65,7 @@ class _AuthorizationState extends State<Authorization> {
             children: [
               Container(
                 margin: StyleConstants.GetMarginBottom(),
-                child: Text('Авторизация',style: StyleConstants.GetInputTextStyle())
+                child: Text('Регистрация',style: StyleConstants.GetInputTextStyle())
               ),
               Container(
                 margin: StyleConstants.GetContainerMargin(),
@@ -104,15 +101,15 @@ class _AuthorizationState extends State<Authorization> {
                             children: [
                               ElevatedButton(
                                 style: StyleConstants.GetButtonStyle(),
-                                child: Text('Регистрация', style: StyleConstants.GetButtonTextStyle()),
+                                child: Text('Назад', style: StyleConstants.GetButtonTextStyle()),
                                 onPressed: (){
-                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Registration()));
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Authorization()));
                                 },
                               ),
                               ElevatedButton(
                                 style: StyleConstants.GetButtonStyle(),
-                                child: Text('Войти', style: StyleConstants.GetButtonTextStyle()),
-                                onPressed: signInButtonClick,
+                                child: Text('Зарегистрироваться', style: StyleConstants.GetButtonTextStyle()),
+                                onPressed: registerButtonClick,
                               )
                             ],
                           ),
