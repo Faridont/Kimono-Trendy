@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:kiu/providers/user_provider.dart';
 import 'package:kiu/sources/components/app_bar.dart';
 import 'package:kiu/sources/components/drawer.dart';
 import 'package:kiu/sources/style_constants.dart';
@@ -10,11 +11,11 @@ class Wardrobe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final User currentUser = Provider.of<User>(context);
+    final UserProvider userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       appBar: AppBarComponent.Get('Мой гардероб'),
       drawer: DrawerComponent.Get(context),
-      backgroundColor: StyleConstants.PAGE_COLOR,
+      backgroundColor: StyleConstants.MAIN_COLOR,
       body: Container(
         padding: StyleConstants.CONTAINER_PADDING,
         child: Center(
@@ -82,7 +83,7 @@ class Wardrobe extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton.large(
-        backgroundColor: StyleConstants.PAGE_COLOR,
+        backgroundColor: StyleConstants.MAIN_COLOR,
         child: Icon(Icons.add),
         onPressed: () { },
       ),

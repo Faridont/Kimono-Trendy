@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kiu/sources/style_constants.dart';
 
 import '../../pages/profile.dart';
 import '../models/user_info.dart';
@@ -11,8 +12,8 @@ class UserHelper {
         msg: message,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
+        backgroundColor: StyleConstants.CONTRAST_COLOR,
+        textColor: StyleConstants.MAIN_COLOR,
         fontSize: 16.0
     );
   }

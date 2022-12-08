@@ -11,8 +11,9 @@ import 'package:provider/provider.dart';
 
 class DrawerComponent {
   static Drawer Get(BuildContext context) {
-    final UserProvider currentUser = Provider.of<UserProvider>(context);
-    final avatarImageUrl = "";
+    final UserProvider userProvider = Provider.of<UserProvider>(context);
+    final User? user = Provider.of<User?>(context);
+
     return Drawer(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -24,16 +25,19 @@ class DrawerComponent {
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader( // <-- SEE HERE
-            decoration: BoxDecoration(color: StyleConstants.MENU_COLOR),
+            decoration: BoxDecoration(color: StyleConstants.MAIN_COLOR),
             currentAccountPicture: CircleAvatar(
               radius: 60.0,
               backgroundColor: Color(0xFF778899),
-              backgroundImage: avatarImageUrl.isEmpty
+              backgroundImage: userProvider.currentUserData.flAvatarSrc.isEmpty
                   ? AssetImage(ImageHelper.AVATAR_PATH) as ImageProvider
-                  : Image.network(avatarImageUrl).image,
+                  : Image.network(userProvider.currentUserData.flAvatarSrc).image,
             ),
-            accountName: Text("Akhmetova Bota", style: StyleConstants.GetBoldTextStyle()),
-            accountEmail: Text("bota.abk@gmail.com", style: StyleConstants.GetBoldTextStyle())
+            accountName: Text(
+                userProvider.currentData.flLastName + " " + userProvider.currentUserData.flFirstName,
+                style: StyleConstants.GetBoldTextStyle()
+            ),
+            accountEmail: Text("", style: StyleConstants.GetBoldTextStyle())
           ),
           ListTile(
             title: Text('Мой профиль'),

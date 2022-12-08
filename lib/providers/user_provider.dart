@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:kiu/sources/helpers/user_helper.dart';
 import '../sources/models/user_info.dart';
 
 class UserProvider with ChangeNotifier {
@@ -27,24 +28,24 @@ class UserProvider with ChangeNotifier {
         });
   }
 
-  void updateUserData({required KUserInfo userInfo}) async {
+  Future<void> updateUserData({required KUserInfo userInfo}) async {
     await FirebaseFirestore.instance
         .collection("tbUsers")
         .doc(userInfo.flUserId)
         .set({
-      "flUserId" : userInfo.flUserId,
-      "flAvatarSrc" : userInfo.flAvatarSrc,
-      "flFirstName" : userInfo.flFirstName,
-      "flLastName" : userInfo.flLastName,
-      "flMiddleName" : userInfo.flMiddleName,
-      "flGrowth" : userInfo.flGrowth,
-      "flWeight" : userInfo.flWeight
-    });
+          "flUserId" : userInfo.flUserId,
+          "flAvatarSrc" : userInfo.flAvatarSrc,
+          "flFirstName" : userInfo.flFirstName,
+          "flLastName" : userInfo.flLastName,
+          "flMiddleName" : userInfo.flMiddleName,
+          "flGrowth" : userInfo.flGrowth,
+          "flWeight" : userInfo.flWeight
+        });
   }
 
   late KUserInfo currentData;
 
-  void getUserData() async {
+  Future<void> getUserData() async {
     KUserInfo userModel;
     var value = await FirebaseFirestore.instance
         .collection("tbUsers")

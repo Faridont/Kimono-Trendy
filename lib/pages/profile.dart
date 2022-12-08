@@ -23,13 +23,21 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-
   final _controllerLastName = TextEditingController();
   final _controllerMiddleName = TextEditingController();
   final _controllerFirstName = TextEditingController();
   final _controllerGrowth = TextEditingController();
   final _controllerWeight = TextEditingController();
+  String _avatarImageUrl = "";
 
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      textEditingControllerSetValues();
+    });
+  }
 
   @override
   void dispose() {
@@ -41,6 +49,17 @@ class _ProfileState extends State<Profile> {
     _controllerGrowth.dispose();
     _controllerWeight.dispose();
     super.dispose();
+  }
+
+  textEditingControllerSetValues() async {
+    var userProvider = Provider.of<UserProvider>(context, listen: false);
+    await userProvider.getUserData();
+
+    _controllerLastName.text = userProvider.currentUserData.flLastName;
+    _controllerMiddleName.text = userProvider.currentUserData.flMiddleName;
+    _controllerFirstName.text = userProvider.currentUserData.flFirstName;
+    _controllerGrowth.text = userProvider.currentUserData.flGrowth.toString();
+    _controllerWeight.text = userProvider.currentUserData.flWeight.toString();
   }
 
   void pickUploadImage() async {
@@ -57,7 +76,7 @@ class _ProfileState extends State<Profile> {
     });
   }
 
-  InputFormField getInput(String labelText, TextEditingController controller){
+  InputFormField getInput(String labelText, TextEditingController controller) {
     return InputFormField(
       bottomMargin: StyleConstants.MARGIN_BOTTOM,
       textEditingController: controller,
@@ -74,26 +93,14 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
     userProvider.getUserData();
-
-    if(userProvider.currentUserData == null){
-      return Center(child: CircularProgressIndicator());
-    }
-
-    String avatarImageUrl = "";
-    avatarImageUrl = userProvider.currentUserData.flAvatarSrc;
-    _controllerFirstName.text = userProvider.currentUserData.flFirstName;
-    _controllerLastName.text = userProvider.currentUserData.flLastName;
-    _controllerMiddleName.text = userProvider.currentUserData.flMiddleName;
-    _controllerGrowth.text = userProvider.currentUserData.flGrowth.toString();
-    _controllerWeight.text = userProvider.currentUserData.flWeight.toString();
-
     return Scaffold(
       appBar: AppBarComponent.Get('Мой профиль'),
       drawer: DrawerComponent.Get(context),
-      backgroundColor: StyleConstants.PAGE_COLOR,
+      backgroundColor: StyleConstants.MAIN_COLOR,
       body: SingleChildScrollView(
         child: Center(
           child: Column(
+
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
@@ -101,9 +108,9 @@ class _ProfileState extends State<Profile> {
                 child: CircleAvatar(
                   radius: 80.0,
                   backgroundColor: const Color(0xFF778899),
-                  backgroundImage: avatarImageUrl.isEmpty
+                  backgroundImage: userProvider.currentUserData.flAvatarSrc.isEmpty
                       ? AssetImage(ImageHelper.AVATAR_PATH) as ImageProvider
-                      : Image.network(avatarImageUrl).image,
+                      : Image.network(userProvider.currentUserData.flAvatarSrc).image,
                 ),
               ),
               Container(
@@ -114,7 +121,6 @@ class _ProfileState extends State<Profile> {
                       ImagePicker imagePicker = ImagePicker();
                       XFile? file = await imagePicker.pickImage(source: ImageSource.camera);
                       var filePath = file!.path;
-                      if(file == null) return;
                       var uniqueFileName = DateTime.now().microsecondsSinceEpoch.toString();
                       Reference ref = FirebaseStorage.instance.ref();
                       Reference refDir = ref.child('avatars');
@@ -122,10 +128,10 @@ class _ProfileState extends State<Profile> {
 
                       try {
                         await refImageToUpload.putFile(File(file!.path));
-                        avatarImageUrl = await refImageToUpload.getDownloadURL();
+                        _avatarImageUrl = await refImageToUpload.getDownloadURL();
                         final user = KUserInfo(
                             flUserId: userProvider.currentUserData!.flUserId,
-                            flAvatarSrc: avatarImageUrl,
+                            flAvatarSrc: _avatarImageUrl,
                             flFirstName: _controllerFirstName.text.trim(),
                             flLastName: _controllerLastName.text.trim(),
                             flMiddleName: _controllerMiddleName.text.trim(),
@@ -133,7 +139,8 @@ class _ProfileState extends State<Profile> {
                             flWeight: int.parse(_controllerWeight.text.trim())
                         );
 
-                        userProvider.updateUserData(userInfo: user);
+                        await userProvider.updateUserData(userInfo: user);
+                        UserHelper.PrintInfoMessage("Данные сохранены успешно");
                       } catch(ex) {
                         UserHelper.PrintInfoMessage("При добавлении файла произошла ошибка!");
                       }
@@ -160,7 +167,7 @@ class _ProfileState extends State<Profile> {
                               onPressed: () async {
                                 final user = KUserInfo(
                                     flUserId: userProvider.currentUserData!.flUserId,
-                                    flAvatarSrc: avatarImageUrl,
+                                    flAvatarSrc: userProvider.currentUserData!.flAvatarSrc,
                                     flFirstName: _controllerFirstName.text.trim(),
                                     flLastName: _controllerLastName.text.trim(),
                                     flMiddleName: _controllerMiddleName.text.trim(),

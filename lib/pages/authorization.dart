@@ -60,7 +60,7 @@ class _AuthorizationState extends State<Authorization> {
   Widget build(BuildContext context) {
     userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
-      backgroundColor: StyleConstants.PAGE_COLOR,
+      backgroundColor: StyleConstants.MAIN_COLOR,
       body: Center(
         child: SingleChildScrollView(
           child: Column(

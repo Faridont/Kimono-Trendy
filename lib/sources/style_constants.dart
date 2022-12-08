@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 
 class StyleConstants {
-  static const PAGE_COLOR = Color(0xff2980b9);//0xffD1A4AC //0xff2980b9
-  static const MENU_COLOR = Color(0xff2980b9);
+  static const MAIN_COLOR = Color(0xff2980b9);//0xffD1A4AC //0xff2980b9
+  static const CONTRAST_COLOR = Colors.white;
   static const MAIN_TEXT_FONT_SIZE = 50;
   static const CONTAINER_PADDING = EdgeInsets.all(15);
   static const MARGIN_BOTTOM = 15.0;
   static const BORDER_RADIUS_VALUE = 20.0;
-  static const ELEMENT_COLOR = Colors.white;
+  static const ELEMENT_COLOR = CONTRAST_COLOR;
 
   static EdgeInsets GetMarginBottom(){
     return EdgeInsets.only(bottom: MARGIN_BOTTOM);
@@ -28,18 +28,18 @@ class StyleConstants {
   }
 
   static TextStyle GetButtonTextStyle(){
-    return TextStyle(color: PAGE_COLOR);
+    return TextStyle(color: MAIN_COLOR);
   }
 
   static BoxDecoration GetContainerBoxDecoration() {
     return BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(BORDER_RADIUS_VALUE)),
-        border: Border.all(width: 2, color: Colors.white)
+        border: Border.all(width: 2, color: CONTRAST_COLOR)
     );
   }
 
   static TextStyle GetMainTextSyle() {
-    return TextStyle(color: Colors.white, fontSize: 70);
+    return TextStyle(color: CONTRAST_COLOR, fontSize: 70);
   }
 
   static TextStyle GetBoldTextStyle() {
@@ -49,7 +49,7 @@ class StyleConstants {
   static InputDecoration GetInputDecoration(String labelText) {
     return InputDecoration(
       border: OutlineInputBorder(
-        borderSide: BorderSide(width: 2, color: Colors.white),
+        borderSide: BorderSide(width: 2, color: CONTRAST_COLOR),
         borderRadius: BorderRadius.circular(BORDER_RADIUS_VALUE)
       ),
       labelText: labelText
@@ -57,7 +57,7 @@ class StyleConstants {
   }
 
   static TextStyle GetInputTextStyle() {
-    return TextStyle(color: Colors.white, fontSize: 20);
+    return TextStyle(color: CONTRAST_COLOR, fontSize: 20);
   }
 
   static BorderRadiusGeometry GetInputBorderRadius() {

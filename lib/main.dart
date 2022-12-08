@@ -20,7 +20,6 @@ Future<void> main() async {
         ],
         builder: (context, child) {
           return MyApp();
-          //return MyApp(context.watch<UserProvider>().toString());
         }
       )
   );
