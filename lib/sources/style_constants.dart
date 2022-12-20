@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 
 class StyleConstants {
-  static const MAIN_COLOR = Color(0xff2980b9);//0xffD1A4AC //0xff2980b9
+  static const MAIN_COLOR = Color(0xff7a6da3);//0xffD1A4AC //0xff2980b9//0xff7a6da3
   static const CONTRAST_COLOR = Colors.white;
   static const MAIN_TEXT_FONT_SIZE = 50;
   static const CONTAINER_PADDING = EdgeInsets.all(15);
@@ -29,6 +29,10 @@ class StyleConstants {
 
   static TextStyle GetButtonTextStyle(){
     return TextStyle(color: MAIN_COLOR);
+  }
+
+  static TextStyle GetContrastButtonTextStyle(){
+    return TextStyle(color: CONTRAST_COLOR);
   }
 
   static BoxDecoration GetContainerBoxDecoration() {

@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:kiu/sources/helpers/user_helper.dart';
-import '../sources/models/user_info.dart';
+import 'package:kiu/sources/models/user_info.dart';
 
 class UserProvider with ChangeNotifier {
   void addUserData({

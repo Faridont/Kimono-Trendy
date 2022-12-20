@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:kiu/pages/authorization.dart';
 import 'package:kiu/pages/profile.dart';
 import 'package:kiu/providers/user_provider.dart';
-import 'package:kiu/sources/helpers/image_helper.dart';
-import 'package:kiu/sources/style_constants.dart';
+import 'package:kiu/providers/wardrobe_provider.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {
@@ -16,6 +15,9 @@ Future<void> main() async {
         providers: [
           ChangeNotifierProvider<UserProvider>(
             create: (_) => UserProvider(),
+          ),
+          ChangeNotifierProvider<WardrobeProvider>(
+            create: (_) => WardrobeProvider(),
           ),
         ],
         builder: (context, child) {

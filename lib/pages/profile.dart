@@ -100,14 +100,12 @@ class _ProfileState extends State<Profile> {
       body: SingleChildScrollView(
         child: Center(
           child: Column(
-
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                 padding: StyleConstants.CONTAINER_PADDING,
                 child: CircleAvatar(
                   radius: 80.0,
-                  backgroundColor: const Color(0xFF778899),
                   backgroundImage: userProvider.currentUserData.flAvatarSrc.isEmpty
                       ? AssetImage(ImageHelper.AVATAR_PATH) as ImageProvider
                       : Image.network(userProvider.currentUserData.flAvatarSrc).image,
@@ -118,17 +116,7 @@ class _ProfileState extends State<Profile> {
                     style: StyleConstants.GetButtonStyle(),
                     child: Text('Изменить', style: StyleConstants.GetButtonTextStyle()),
                     onPressed: () async {
-                      ImagePicker imagePicker = ImagePicker();
-                      XFile? file = await imagePicker.pickImage(source: ImageSource.camera);
-                      var filePath = file!.path;
-                      var uniqueFileName = DateTime.now().microsecondsSinceEpoch.toString();
-                      Reference ref = FirebaseStorage.instance.ref();
-                      Reference refDir = ref.child('avatars');
-                      Reference refImageToUpload = refDir.child(uniqueFileName);
-
-                      try {
-                        await refImageToUpload.putFile(File(file!.path));
-                        _avatarImageUrl = await refImageToUpload.getDownloadURL();
+                        _avatarImageUrl = await ImageHelper.UploadAndGetUrl('avatars');
                         final user = KUserInfo(
                             flUserId: userProvider.currentUserData!.flUserId,
                             flAvatarSrc: _avatarImageUrl,
@@ -141,9 +129,6 @@ class _ProfileState extends State<Profile> {
 
                         await userProvider.updateUserData(userInfo: user);
                         UserHelper.PrintInfoMessage("Данные сохранены успешно");
-                      } catch(ex) {
-                        UserHelper.PrintInfoMessage("При добавлении файла произошла ошибка!");
-                      }
                     },
                   )
               ),
